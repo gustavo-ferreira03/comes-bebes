@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  get 'auth/login'
-  get 'auth/signup'
+  post 'authentication/login'
+  post 'authentication/signup'
+  
   resources :wallets
   resources :addresses
   resources :carts

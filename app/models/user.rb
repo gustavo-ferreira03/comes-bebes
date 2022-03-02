@@ -1,8 +1,11 @@
 class User < ApplicationRecord
+    has_one :wallet
+    has_one :deliveryman_application
     has_one :restaurant
     has_many :addresses, as: :addressable
     has_many :carts
-    has_one :wallet
+
+    has_secure_password
 
     validates :name, :email, :phone, :birthdate, :user_type, presence: true
     validates :email, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_25_032448) do
+ActiveRecord::Schema.define(version: 2022_03_02_194159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(version: 2022_02_25_032448) do
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
+  create_table "deliveryman_applications", force: :cascade do |t|
+    t.string "cnh"
+    t.integer "vehicle_type"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_deliveryman_applications_on_user_id"
+  end
+
   create_table "dishes", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -83,7 +92,7 @@ ActiveRecord::Schema.define(version: 2022_02_25_032448) do
     t.string "name"
     t.string "email"
     t.string "phone"
-    t.string "password"
+    t.string "password_digest"
     t.datetime "birthdate"
     t.string "cpf"
     t.integer "user_type"
@@ -102,6 +111,7 @@ ActiveRecord::Schema.define(version: 2022_02_25_032448) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "dishes"
   add_foreign_key "carts", "users"
+  add_foreign_key "deliveryman_applications", "users"
   add_foreign_key "dishes", "restaurants"
   add_foreign_key "restaurants", "users"
   add_foreign_key "wallets", "users"
