@@ -1,4 +1,6 @@
 class AuthenticationController < ApplicationController
+  before_action :verify_user_type, only: [:signup]
+
   def login
     @user = User.find_by(email: login_params[:email])
 
@@ -24,8 +26,13 @@ class AuthenticationController < ApplicationController
     def signup_params
       params.require(:user).permit(:name, :email, :phone, :password, :birthdate, :cpf, :user_type)
     end
-
+    
     def login_params
       params.require(:user).permit(:email, :password)
     end
+
+    def verify_user_type
+      render json: { message: "Unauthorized." }, status: 401 and return unless ["customer", "deliveryman"].include? signup_params[:user_type]
+    end
+
 end

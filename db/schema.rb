@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_02_194159) do
+ActiveRecord::Schema.define(version: 2022_03_02_213357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2022_03_02_194159) do
   create_table "deliveryman_applications", force: :cascade do |t|
     t.string "cnh"
     t.integer "vehicle_type"
+    t.integer "status", default: 0
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

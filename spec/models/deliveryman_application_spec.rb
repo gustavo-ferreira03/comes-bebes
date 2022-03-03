@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe DeliverymanApplication, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do 
+    it 'should have a formatted cnh' do
+      expect(build(:deliveryman_application, cnh: "12312")).to be_invalid
+    end
+  end
 end

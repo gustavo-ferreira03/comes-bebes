@@ -7,8 +7,11 @@ RSpec.describe Wallet, type: :model do
     end
   end
   describe 'creation' do
-    it 'when wallet is valid' do
-      expect(build(:wallet)).to be_valid
+    it 'should be invalid without a user' do
+      expect(build(:wallet)).to be_invalid
+    end
+    it 'should be valid with a user' do
+      expect(build(:wallet, :for_user)).to be_valid
     end
   end
 end

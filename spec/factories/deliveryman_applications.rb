@@ -1,6 +1,11 @@
 FactoryBot.define do
   factory :deliveryman_application do
-    cnh { "MyString" }
-    vehicle { "MyString" }
+    cnh { "#{rand(10000000000..99999999999)}" }
+    vehicle_type { rand(0..1) }
+    status { 0 }
+
+    trait :for_user do
+      association :user, factory: :user
+    end
   end
 end

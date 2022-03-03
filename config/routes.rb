@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
-  post 'authentication/login'
-  post 'authentication/signup'
+  post 'login', to: 'authentication#login'
+  post 'signup', to: 'authentication#signup'
+
+  resources :users
+  get 'profile', to: 'users#show'
+
+  post 'applications', to: 'deliveryman_applications#create'
   
+  namespace :admin do
+    resources :users
+    resources :deliveryman_applications, except: :create
+  end
+
   resources :wallets
   resources :addresses
   resources :carts
   resources :dishes
   resources :restaurants
-  resources 'users'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
