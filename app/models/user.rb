@@ -13,4 +13,9 @@ class User < ApplicationRecord
     validates :user_type, inclusion: { in: ["customer", "deliveryman", "restaurant_owner", "admin"] }
 
     enum user_type: { customer:0, deliveryman:1, restaurant_owner:2, admin:3 }
+
+    def verify_deliveryman_application_rejection
+        status = self.deliveryman_application.status
+        self.destroy and return true if status == 'rejected'
+    end
 end

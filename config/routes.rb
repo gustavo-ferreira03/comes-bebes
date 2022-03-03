@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     resources :deliveryman_applications, except: :create
   end
 
+  namespace :restaurant_owner do
+    resources :restaurants
+  end
+
   resources :wallets
   resources :addresses
   resources :carts

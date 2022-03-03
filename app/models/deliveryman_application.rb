@@ -7,5 +7,5 @@ class DeliverymanApplication < ApplicationRecord
   validates :status, inclusion: { in: ["pending", "accepted", "rejected"]}
 
   enum vehicle_type: { motorcycle:0, car:1 }
-  enum status: { pending:0, accepted:0, rejected:0 }
+  enum status: { pending:0, accepted:1, rejected:2 }
 end

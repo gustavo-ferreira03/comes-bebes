@@ -13,9 +13,10 @@ class AuthenticationController < ApplicationController
   end
 
   def signup
-    @user = User.new(signup_params)
+    @user = User.new(signup_user_params)
+    @address = @user.addresses.build(signup_address_params)
 
-    if @user.save
+    if @user.save && @address.save
       render json: @user, status: :created
     else
       render json: @user.errors, status: 422
@@ -23,8 +24,12 @@ class AuthenticationController < ApplicationController
   end
 
   private
-    def signup_params
+    def signup_user_params
       params.require(:user).permit(:name, :email, :phone, :password, :birthdate, :cpf, :user_type)
+    end
+
+    def signup_address_params
+      params.require(:address).permit(:street, :number, :city, :state, :zip_code)
     end
     
     def login_params
@@ -32,7 +37,6 @@ class AuthenticationController < ApplicationController
     end
 
     def verify_user_type
-      render json: { message: "Unauthorized." }, status: 401 and return unless ["customer", "deliveryman"].include? signup_params[:user_type]
+      render json: { message: "Unauthorized." }, status: 401 and return unless ["customer", "deliveryman"].include? signup_user_params[:user_type]
     end
-
 end

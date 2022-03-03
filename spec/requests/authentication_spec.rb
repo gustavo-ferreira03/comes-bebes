@@ -5,17 +5,23 @@ RSpec.describe "Authentications", type: :request do
     it 'creates a user' do
       expect { 
         post '/signup', params: { 
-          user: attributes_for(:user, user_type: "customer") 
+          user: attributes_for(:user, user_type: "customer"),
+          address: attributes_for(:address)
           }
         }.to change { User.count }.by(1)
     end
+    it 'returns an error when trying to signup without an address' do
+      expect {
+        post '/signup', params: { user: attributes_for(:user, user_type: "customer") }
+      }.to raise_error(ActionController::ParameterMissing)
+    end
     it 'returns an error when signing up as admin' do
-      post '/signup', params: { user: attributes_for(:user, user_type: "admin") }
+      post '/signup', params: { user: attributes_for(:user, user_type: "admin"), address: attributes_for(:address) }
       
       expect(response.status).to eql(401)
     end
     it 'returns an error when signing up as restaurant owner' do
-      post '/signup', params: { user: attributes_for(:user, user_type: "restaurant_owner") }
+      post '/signup', params: { user: attributes_for(:user, user_type: "restaurant_owner"), address: attributes_for(:address) }
       
       expect(response.status).to eql(401)
     end

@@ -5,7 +5,7 @@ FactoryBot.define do
     status { 0 }
 
     trait :for_user do
-      association :user, factory: :user
+      association :user, factory: :user, user_type: 1
     end
   end
 end

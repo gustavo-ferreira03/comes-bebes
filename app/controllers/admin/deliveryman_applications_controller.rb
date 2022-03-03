@@ -16,6 +16,7 @@ class Admin::DeliverymanApplicationsController < Admin::Base
   # PATCH/PUT /deliveryman_applications/1
   def update
     if @deliveryman_application.update(deliveryman_application_params)
+      @deliveryman_application.user.verify_deliveryman_application_rejection
       render json: @deliveryman_application
     else
       render json: @deliveryman_application.errors, status: :unprocessable_entity
