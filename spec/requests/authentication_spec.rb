@@ -15,9 +15,9 @@ RSpec.describe "Authentications", type: :request do
       expect(response.status).to eql(422)
     end
     it 'returns an error when signing up without an address' do
-      expect {
-        post '/signup', params: { user: attributes_for(:user, user_type: "customer") }
-      }.to raise_error(ActionController::ParameterMissing)
+      expect post '/signup', params: { user: attributes_for(:user, user_type: "customer") }
+
+      expect(response.status).to eql(400)
     end
     it 'returns an error when signing up as admin' do
       post '/signup', params: { user: attributes_for(:user, user_type: "admin"), address: attributes_for(:address) }

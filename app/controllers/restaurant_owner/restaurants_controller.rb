@@ -1,4 +1,4 @@
-class RestaurantsController < ApplicationController
+class RestaurantOwner::RestaurantsController < RestaurantOwner::Base
   before_action :set_restaurant, only: [:show, :update, :destroy]
 
   # GET /restaurants/1
@@ -14,7 +14,6 @@ class RestaurantsController < ApplicationController
       @restaurant.save!
       @restaurant.create_image!(image_params)
       @restaurant.create_address!(address_params)
-
       render json: @restaurant, status: :created
     rescue ActiveRecord::RecordInvalid => invalid
       render json: invalid.record.errors, status: :unprocessable_entity
@@ -23,7 +22,7 @@ class RestaurantsController < ApplicationController
 
   # PATCH/PUT /restaurants/1
   def update
-    if @restaurant.update(restaurant_params) && @restaurant.image.update(image_params)
+    if @restaurant.update(restaurant_params)
       render json: @restaurant
     else
       render json: @restaurant.errors, status: :unprocessable_entity
@@ -47,7 +46,7 @@ class RestaurantsController < ApplicationController
     end
 
     def image_params
-      params.require(:image).permit(:logo_image_link)
+      params.require(:image).permit(:image_link)
     end
 
     def address_params

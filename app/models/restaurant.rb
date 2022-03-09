@@ -10,12 +10,4 @@ class Restaurant < ApplicationRecord
     validates :cnpj, format: { with: /\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}/ }
 
     enum restaurant_type: { fast_food:0, italian:1, japanese:2, vegan:3 }
-
-    def attach_image(link_params)
-        begin 
-            self.create_image(link_params)
-        rescue => exception
-            render json: e.message, status: :unprocessable_entity and return
-        end
-    end
 end

@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::API
+    rescue_from ActionController::ParameterMissing do |e|
+        render json: { error: e.message }, status: :bad_request
+    end
+
     def authorize_request
         token = request.headers["Auth-Token"]
         begin
