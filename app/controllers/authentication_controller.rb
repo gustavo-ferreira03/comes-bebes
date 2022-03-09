@@ -14,12 +14,14 @@ class AuthenticationController < ApplicationController
 
   def signup
     @user = User.new(signup_user_params)
-    @address = @user.addresses.build(signup_address_params)
 
-    if @user.save && @address.save
+    User.transaction do
+      @user.save!
+      @user.addresses.create!(signup_address_params)
+
       render json: @user, status: :created
-    else
-      render json: @user.errors, status: 422
+    rescue ActiveRecord::RecordInvalid => invalid
+      render json: invalid.record.errors, status: :unprocessable_entity
     end
   end
 

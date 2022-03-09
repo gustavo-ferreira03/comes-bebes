@@ -10,7 +10,11 @@ RSpec.describe "Authentications", type: :request do
           }
         }.to change { User.count }.by(1)
     end
-    it 'returns an error when trying to signup without an address' do
+    it 'returns an error when signing up with an invalid address' do
+      post '/signup', params: { user: attributes_for(:user, user_type: "customer"), address: attributes_for(:address, street:nil) }
+      expect(response.status).to eql(422)
+    end
+    it 'returns an error when signing up without an address' do
       expect {
         post '/signup', params: { user: attributes_for(:user, user_type: "customer") }
       }.to raise_error(ActionController::ParameterMissing)
