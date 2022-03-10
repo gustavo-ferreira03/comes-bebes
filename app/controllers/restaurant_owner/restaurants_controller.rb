@@ -8,7 +8,6 @@ class RestaurantOwner::RestaurantsController < RestaurantOwner::Base
 
   # POST /restaurants
   def create
-    
     Restaurant.transaction do
       @restaurant = @current_user.create_restaurant!(restaurant_params)
       @restaurant.create_image!(image_params)
@@ -21,13 +20,10 @@ class RestaurantOwner::RestaurantsController < RestaurantOwner::Base
 
   # PATCH/PUT /restaurants/1
   def update
-    Restaurant.transaction do
-      @restaurant.update!(restaurant_params)
-      @restaurant.image.update!(image_params)
-      @restaurant.address.update!(address_params)
+    if @restaurant.update(restaurant_params)
       render json: @restaurant
-    rescue ActiveRecord::RecordInvalid => invalid
-      render json: invalid.record.errors, status: :unprocessable_entity
+    else
+      render json: @restaurant.errors, status: :unprocessable_entity
     end
   end
 
