@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   post 'login', to: 'authentication#login'
   post 'signup', to: 'authentication#signup'
+  post 'deliveryman/apply', to: 'deliveryman_applications#create'
 
   get 'profile', to: 'users#show'
   resource :user, except: [:index, :create, :show] do
@@ -9,8 +10,6 @@ Rails.application.routes.draw do
     resources :addresses
   end
   
-  post 'applications', to: 'deliveryman_applications#create'
-  
   namespace :admin do
     resources :users
     resources :deliveryman_applications, except: [:create, :destroy]
@@ -18,9 +17,12 @@ Rails.application.routes.draw do
 
   namespace :restaurant_owner do
     resource :restaurant, except: [:index] do
-      resources :address, except: [:create, :destroy]
-      resources :images, except: [:create, :destroy]
-      resources :dishes
+      resource :address, only: [:show, :update]
+      match 'logo', to: 'images#show_logo', via: [:get]
+      match 'logo', to: 'images#update_logo', via: [:patch, :put]
+      resources :dishes do
+        resources :images
+      end
     end
   end
 

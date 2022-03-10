@@ -1,8 +1,8 @@
 class Restaurant < ApplicationRecord
     belongs_to :user
     
-    has_one :image, as: :imageable
-    has_one :address, as: :addressable
+    has_one :image, as: :imageable, dependent: :destroy
+    has_one :address, as: :addressable, dependent: :destroy
     has_many :dishes, dependent: :destroy
 
     validates :name, :cnpj, :restaurant_type, presence: true
