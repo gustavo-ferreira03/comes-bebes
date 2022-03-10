@@ -1,5 +1,5 @@
 class RestaurantOwner::ImagesController < RestaurantOwner::Base
-  before_action :set_dish, only: [:index]
+  before_action :set_dish, only: [:index, :create]
   before_action :set_image, only: [:show, :update, :destroy]
   before_action :set_logo, only: [:show_logo, :update_logo]
 
@@ -17,10 +17,10 @@ class RestaurantOwner::ImagesController < RestaurantOwner::Base
   
   # POST /images
   def create
-    @image = @current_user.restaurant.new(image_params)
+    @image = @dish.images.build(image_params)
 
     if @image.save
-      render json: @image, status: :created, location: @image
+      render json: @image, status: :created
     else
       render json: @image.errors, status: :unprocessable_entity
     end
@@ -59,7 +59,8 @@ class RestaurantOwner::ImagesController < RestaurantOwner::Base
     end
     
     def set_image
-      @image = @dish.image.find(params[:id])
+      set_dish
+      @image = @dish.images.find(params[:id])
     end
 
     def set_logo

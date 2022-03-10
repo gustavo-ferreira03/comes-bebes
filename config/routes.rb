@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   post 'signup', to: 'authentication#signup'
   post 'deliveryman/apply', to: 'deliveryman_applications#create'
 
-  get 'profile', to: 'users#show'
-  resource :user, except: [:index, :create, :show] do
+  resource :user, except: [:index, :create] do
     resource :wallet
     resources :carts
     resources :addresses

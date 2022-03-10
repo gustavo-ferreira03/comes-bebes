@@ -33,14 +33,14 @@ RSpec.describe "Dishes", type: :request do
   describe "PUT /restaurant/dishes" do
     before :each do
       @dish = @restaurant.dishes.create(attributes_for(:dish))
-      @old_dish_name = @dish.name
+      @old_dish_stock = @dish.stock
     end
     it "should update the dish" do
       expect { 
         put "/restaurant_owner/restaurant/dishes/#{@dish.id}", params: {
-          dish: { name: "novo nome" }
+          dish: { stock: 2 }
         }, headers: { "Auth-Token": @token }
-      }.to change { Dish.find(@dish.id).name }.from(@old_dish_name).to("novo nome")
+      }.to change { Dish.find(@dish.id).stock }.from(@old_dish_stock).to(2)
     end
   end
   describe "DELETE /restaurant/dishes" do
