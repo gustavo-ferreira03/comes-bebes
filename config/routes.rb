@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   resource :user, except: [:index, :create] do
     resource :wallet, only: [:show, :update]
-    resources :carts
+    match 'orders', to: 'carts#orders_index', via: [:get]
+    resource :cart, except: [:index]
     resources :addresses
   end
   
@@ -25,8 +26,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :dishes
-  resources :restaurants
+  resources :restaurants, only: [:index, :show] do
+    resources :dishes do
+      match 'add_to_cart', to: 'carts#add_to_cart', via: [:post]
+    end
+  end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

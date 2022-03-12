@@ -18,7 +18,7 @@ class RestaurantOwner::DishesController < RestaurantOwner::Base
     @dish = @current_user.restaurant.dishes.build(dish_params)
 
     if @dish.save
-      render json: @dish, status: :created, location: @dish
+      render json: @dish, status: :created, location: @restaurant_dish
     else
       render json: @dish.errors, status: :unprocessable_entity
     end

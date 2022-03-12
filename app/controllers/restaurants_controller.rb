@@ -13,31 +13,6 @@ class RestaurantsController < ApplicationController
     render json: @restaurant
   end
 
-  # POST /restaurants
-  def create
-    @restaurant = Restaurant.new(restaurant_params)
-
-    if @restaurant.save
-      render json: @restaurant, status: :created, location: @restaurant
-    else
-      render json: @restaurant.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /restaurants/1
-  def update
-    if @restaurant.update(restaurant_params)
-      render json: @restaurant
-    else
-      render json: @restaurant.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /restaurants/1
-  def destroy
-    @restaurant.destroy
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
