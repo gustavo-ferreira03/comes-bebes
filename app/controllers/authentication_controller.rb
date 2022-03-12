@@ -40,6 +40,6 @@ class AuthenticationController < ApplicationController
     end
 
     def verify_user_type
-      render json: { message: "Unauthorized." }, status: 401 and return unless ["customer", "deliveryman"].include? signup_user_params[:user_type]
+      render json: { message: "Unauthorized." }, status: 401 and return unless ["customer", "deliveryman", 0, 1].include? signup_user_params[:user_type]
     end
 end
