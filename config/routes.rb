@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   post 'deliveryman/apply', to: 'deliveryman_applications#create'
 
   resource :user, except: [:index, :create] do
-    resource :wallet
+    resource :wallet, only: [:show, :update]
     resources :carts
     resources :addresses
   end

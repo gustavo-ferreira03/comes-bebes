@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
   before_action :authorize_request
-  before_action :set_user, except: [:create]
 
   def show
-    render json: @user
+    render json: @current_user
   end
 
   def update
@@ -14,16 +13,12 @@ class UsersController < ApplicationController
     end
   end
 
-  def delete
-    @current_user.delete
+  def destroy
+    @current_user.destroy
   end
 
   private
     def user_params
       params.require(:user).permit(:name, :email, :phone, :password, :birthdate, :cpf)
-    end
-
-    def set_user
-      @user = User.find(params[:id])
     end
 end

@@ -1,9 +1,10 @@
 class CartsController < ApplicationController
+  before_action :authorize_request
   before_action :set_cart, only: [:show, :update, :destroy]
 
   # GET /carts
   def index
-    @carts = Cart.all
+    @carts = @current_user.carts.all
 
     render json: @carts
   end
@@ -15,7 +16,7 @@ class CartsController < ApplicationController
 
   # POST /carts
   def create
-    @cart = Cart.new(cart_params)
+    @cart = @current_user.carts.build(cart_params)
 
     if @cart.save
       render json: @cart, status: :created, location: @cart
@@ -41,7 +42,7 @@ class CartsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_cart
-      @cart = Cart.find(params[:id])
+      @cart = @current_user.carts.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
