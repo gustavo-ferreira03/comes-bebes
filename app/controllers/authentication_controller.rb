@@ -18,7 +18,7 @@ class AuthenticationController < ApplicationController
     User.transaction do
       @user.save!
       @user.addresses.create!(signup_address_params)
-      @user.create_wallet(balance: 0) if signup_user_params[:user_type] == "deliveryman"
+      @user.create_wallet(balance: 0)
 
       render json: @user, status: :created
     rescue ActiveRecord::RecordInvalid => invalid
