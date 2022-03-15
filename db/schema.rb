@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_02_213357) do
+ActiveRecord::Schema.define(version: 2022_03_13_190803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,10 +41,12 @@ ActiveRecord::Schema.define(version: 2022_03_02_213357) do
 
   create_table "carts", force: :cascade do |t|
     t.float "discount"
-    t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.bigint "restaurant_id", null: false
+    t.float "subtotal"
+    t.index ["restaurant_id"], name: "index_carts_on_restaurant_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
@@ -79,6 +81,19 @@ ActiveRecord::Schema.define(version: 2022_03_02_213357) do
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable"
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.integer "payment_method"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "orders_restaurants", id: false, force: :cascade do |t|
+    t.bigint "order_id"
+    t.bigint "restaurant_id"
+    t.index ["order_id"], name: "index_orders_restaurants_on_order_id"
+    t.index ["restaurant_id"], name: "index_orders_restaurants_on_restaurant_id"
+  end
+
   create_table "restaurants", force: :cascade do |t|
     t.integer "restaurant_type"
     t.string "cnpj"
@@ -111,6 +126,7 @@ ActiveRecord::Schema.define(version: 2022_03_02_213357) do
 
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "dishes"
+  add_foreign_key "carts", "restaurants"
   add_foreign_key "carts", "users"
   add_foreign_key "deliveryman_applications", "users"
   add_foreign_key "dishes", "restaurants"

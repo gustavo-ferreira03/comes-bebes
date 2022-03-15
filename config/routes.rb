@@ -5,9 +5,10 @@ Rails.application.routes.draw do
 
   resource :user, except: [:index, :create] do
     resource :wallet, only: [:show, :update]
-    match 'orders', to: 'carts#orders_index', via: [:get]
-    resource :cart, except: [:index]
     resources :addresses
+    resource :cart, except: [:index, :create] do
+      resources :cart_items, except: [:create]
+    end
   end
   
   namespace :admin do
@@ -28,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :restaurants, only: [:index, :show] do
     resources :dishes do
-      match 'add_to_cart', to: 'carts#add_to_cart', via: [:post]
+      match 'add_to_cart', to: 'cart_items#create', via: [:post]
     end
   end
 

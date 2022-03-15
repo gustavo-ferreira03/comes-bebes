@@ -4,6 +4,7 @@ class Restaurant < ApplicationRecord
     has_one :image, as: :imageable, dependent: :destroy
     has_one :address, as: :addressable, dependent: :destroy
     has_many :dishes, dependent: :destroy
+    has_and_belongs_to_many :orders
 
     validates :name, :cnpj, :restaurant_type, presence: true
     validates :restaurant_type, inclusion: { in: ["fast_food", "italian", "japanese", "vegan"] }

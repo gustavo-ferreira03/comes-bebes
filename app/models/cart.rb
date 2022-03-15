@@ -1,13 +1,12 @@
 class Cart < ApplicationRecord
     belongs_to :user
-    has_many :cart_items
+    belongs_to :restaurant
+    has_many :cart_items, dependent: :destroy
     has_many :dishes, through: :cart_items
 
-    validates :status, presence: true
-    validates :status, inclusion: { in: ["open", "closed"] }
     validates :discount, numericality: { in: 0..1 }
-    
-    enum status: { open:0, closed:1 }
+    validates :subtotal, numericality: { greater_than_or_equal_to: 0 }
+    before_save :set_subtotal
 
     def add_item(dish_id, quantity)
         quantity = quantity.to_i
@@ -20,7 +19,12 @@ class Cart < ApplicationRecord
         cart_item
     end
 
-    def total_price
-        cart_items.to_a.sum{|item| item.value}*(1-(cart.discount || 0))
+    def subtotal
+        cart_items.to_a.sum{|item| item.value}*(1-(discount || 0))
     end
+
+    private
+        def set_subtotal
+            self[:subtotal] = subtotal
+        end
 end

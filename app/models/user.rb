@@ -2,7 +2,8 @@ class User < ApplicationRecord
     has_one :wallet, dependent: :destroy
     has_one :deliveryman_application, dependent: :destroy
     has_one :restaurant, dependent: :destroy
-    has_many :carts, dependent: :destroy
+    has_one :cart, dependent: :destroy
+    has_many :orders
     has_many :addresses, as: :addressable
 
     has_secure_password
